@@ -22,7 +22,7 @@ export class ProductsingleComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       var id = Number(params.get('id'));
       this.getById(id);
-      debugger
+      
     });
   }
 

@@ -20,6 +20,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductsComponent } from './products/products.component';
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,9 +44,12 @@ import { EditAddressComponent } from './edit-address/edit-address.component';
     BrowserModule,
     AppRoutingModule,
     SlickCarouselModule,
-    HttpClientModule
-
+    HttpClientModule,
+    FormsModule, 
+    ReactiveFormsModule
   ],
+
+  
   providers: [],
   bootstrap: [AppComponent]
 })

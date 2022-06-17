@@ -12,7 +12,6 @@
           <li class="nav-item active">
             <a class="nav-link" routerLink="/home">Home </a>
           </li>
-
           
           <!-- / Blog -->
           <li class="nav-item dropdown dropdown-slide">
@@ -38,9 +37,12 @@
               <li><a routerLink="#">Dahsboard</a></li>
               <li><a routerLink="/order">Orders</a></li>
               <li><a routerLink="/address">Address</a></li>
-              <li><a routerLink="/profile-details">Profile Details</a></li>
-              <li><a routerLink="/login">Login Page</a></li>
-              <li><a routerLink="/signup">SignUp Page</a></li>
+              <li><a routerLink="/profile-details">Profile Details</a></li> 
+              <li><a routerLink="/login" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">Login Page</a></li>
+              <li><a routerLink="/signup" routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">SignUp Page</a></li>
+              <div *ngIf= 'isUserAuthenticated'>
+                <li><a (click)="logout()">Logout</a></li>
+              </div>
               <li><a href="#">Forgot Password</a></li>
             </ul>
           </li>
