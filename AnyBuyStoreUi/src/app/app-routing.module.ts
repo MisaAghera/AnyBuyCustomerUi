@@ -9,6 +9,8 @@ import { CartComponent } from './cart/cart.component';
 import { SubcategoriesComponent } from './subcategories/subcategories.component';
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
+import { ProductsComponent } from './products/products.component';
+
 const routes: Routes = [
   { path:"signup", component:SignupComponent },
   { path:"login", component:LoginComponent },
@@ -18,7 +20,9 @@ const routes: Routes = [
   { path:"home", component:HomeComponent },
   { path: 'subcategory/:id', component: SubcategoriesComponent },
   { path:"profile-details", component:ProfileDetailsComponent },
-  { path:"edit-address", component:EditAddressComponent }
+  { path:"edit-address", component:EditAddressComponent },
+  { path:"products", component:ProductsComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -10,16 +10,29 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit {
   public isUserAuthenticated: boolean = false;
   constructor(private authService: AuthenticationService,private router: Router) { }
+  userName?: string;
 
-  ngOnInit(): void {
-    this.authService.authChanged
-    .subscribe(res => {
-      this.isUserAuthenticated = res;
-    })
+async assignAuthentication(res: boolean) {
+    this.isUserAuthenticated = res;
   }
 
   logout() {
     this.authService.logout();
+    this.authService.checkIfAuthenticated();
+    this.isUserAuthenticated = false;
     this.router.navigate(["/"]);
+    this.userName = localStorage.getItem("userName") ? localStorage.getItem("userName")?.toString() : '';
   }
+
+  ngOnInit(): void {
+    this.authService.checkIfAuthenticated();
+    this.authService.authChanged
+      .subscribe(async res => {
+        await this.assignAuthentication(res);
+        this.userName = localStorage.getItem("userName") ? localStorage.getItem("userName")?.toString() : '';
+      })
+  }
+
 }
+
+

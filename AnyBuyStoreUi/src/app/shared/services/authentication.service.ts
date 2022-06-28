@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthResponseModel } from '../models/auth-response-model.model';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GlobalConstants } from '../global-constants.model';
 import { UserForAuthenticationModel } from '../models/user-for-authentication-model.model';
 import { UserForRegistrationModel } from '../models/user-for-registration-model.model';
@@ -15,9 +15,8 @@ export class AuthenticationService {
   formDataLogin: UserForAuthenticationModel = new UserForAuthenticationModel();
   readonly LoginUrl = GlobalConstants.apiURL + 'Authenticate/Login';
   readonly RegisterUrl = GlobalConstants.apiURL + 'Authenticate/RegisterCustomer';
-
-  private authChangeSub = new Subject<boolean>()
-  public authChanged = this.authChangeSub.asObservable();
+  private authChangeSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public authChanged: Observable<boolean> = this.authChangeSub.asObservable();
 
   constructor(private http: HttpClient, private fb: FormBuilder) { }
 
@@ -27,10 +26,22 @@ export class AuthenticationService {
 
   registerUser(body: InModelRegister) {
     return this.http.post(this.RegisterUrl, body);
+  } 
+
+  checkIfAuthenticated(){
+    let token = localStorage.getItem('token')?.toString();
+    if(token ==''|| token==null){
+      this.sendAuthStateChangeNotification(false);
+    }
+    else{
+      this.sendAuthStateChangeNotification(true);
+    }
   }
 
   logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
     this.sendAuthStateChangeNotification(false);
   }
 

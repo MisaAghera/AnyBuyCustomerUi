@@ -10,9 +10,12 @@ export class ProductService {
   formData: ProductModel = new ProductModel();
 
   readonly baseURLGet = GlobalConstants.apiURL+'Product/GetAll';
-  readonly getBySubIdUrl = GlobalConstants.apiURL+'Product/GetAllBySubId?SubcategoryId='
-  readonly getByIdUrl = GlobalConstants.apiURL+ 'Product/GetById/'
-
+  readonly getBySubIdUrl = GlobalConstants.apiURL+'Product/GetAllBySubId?SubcategoryId=';
+  readonly getByIdUrl = GlobalConstants.apiURL+ 'Product/GetById/';
+  readonly AddUrl = GlobalConstants.apiURL+ 'Product/Add';
+  readonly getByUserUrl = GlobalConstants.apiURL + 'Product/GetAllByUSerId?UserId=';
+  readonly updateUrl = GlobalConstants.apiURL + 'Product/Update/put';
+readonly deleteUrl = GlobalConstants.apiURL+'Product/Delete/';
   constructor(private http :HttpClient) { }
 
   getAll() : Observable<Array<ProductModel>>{
@@ -22,8 +25,24 @@ export class ProductService {
   getAllBySubcategoryId(SubcategoryId: number): Observable<Array<ProductModel>> {
     return this.http.get<Array<ProductModel>>(this.getBySubIdUrl+SubcategoryId)  
   }
+  getAllByUserId(UserId: number): Observable<Array<ProductModel>> {
+    return this.http.get<Array<ProductModel>>(this.getByUserUrl+UserId)  
+  }
 
   getById(ProductId: number): Observable<ProductModel> {
-    return this.http.get<ProductModel>(this.getByIdUrl+ProductId)  
+    return this.http.get<ProductModel>(this.getByIdUrl+ProductId) 
   }
+
+  getByUserId(UserId: number): Observable<ProductModel> {
+    return this.http.get<ProductModel>(this.getByIdUrl+UserId)  
+  }
+  
+  delete(id:number){
+    return this.http.delete(this.deleteUrl+id);
+  }
+  
+}
+
+class InModelProduct{
+  In: ProductModel = new ProductModel();
 }
