@@ -18,14 +18,14 @@
     <div class="quantity"><br>
         <label class="sr-only">Quantity</label>
         <p> <input type="number" id="qty" class="input-text qty text" step="1"
-                min="0" max="9" value="1" title="Qty" size="4" value="{{product.quantity}}" [(ngModel)]="product.quantity" (change)= 'sendCartItemToParent(product)'><br>
+                min="0" max="9" value="1" title="Qty" size="4" value="{{product.quantity}}" [(ngModel)]="product.quantity" (input)= 'sendCartItemToParent(product)'><br>
     </div><br>
 </td>
 <td class="product-price" data-title="Price">
     <span class="amount">
         <pre wp-pre-tag-3=""></pre>
         <input hidden type="number" id="qty" class="input-text qty text" step="1"
-                min="0" max="9" value="1" title="Qty" size="4"  [(ngModel)]="product.quantity! * product.productPrice!">
+                min="0" max = "{{maxQuantityLimit}}" value="1" title="Qty" size="4"  [(ngModel)]="product.quantity! * product.productPrice!">
         <p>{{product.quantity! * product.productPrice! | currency:"INR"}}</p>
     </span><br>
 </td>

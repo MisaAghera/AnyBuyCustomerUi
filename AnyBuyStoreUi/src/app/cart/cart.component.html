@@ -30,7 +30,7 @@
                              </thead>
                             <tbody> 
                                     <tr class="cart_item"  *ngFor= "let product of cartList">
-                                      <app-cart-card  [product] = "product" (newItemEvent)="addItem($event)"></app-cart-card>
+                                      <app-cart-card  [product] = "product"   (productChange)="addItem($event)"></app-cart-card>
                             </tbody>
                           
                         </table>

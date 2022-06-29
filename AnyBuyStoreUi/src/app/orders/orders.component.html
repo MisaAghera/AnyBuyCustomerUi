@@ -1,42 +1,59 @@
 <section class="page-header">
-    <div class="overly"></div> 	
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <div class="content text-center">
-            <h1 class="mb-3">Order</h1>
-            <p>Order</p>
-  
+  <div class="overly"></div>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="content text-center">
+          <h1 class="mb-3">Order</h1>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent justify-content-center">
               <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Order</li>
             </ol>
           </nav>
-          </div>
         </div>
       </div>
     </div>
-  </section>
-  
-  
-  <section class="user-dashboard page-wrapper">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-7 col-sm-12 col-lg-9">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">Order</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
-                <th scope="col">Total</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">#1012</th>
-                <td>June 11, 2019 </td>
-                <td>Completed</td>
-                <td>30</td> <td><a routerLink="/order" class="btn btn-dark btn-small">View</a></td> </tr> <tr> <th scope="row">#2214</th> <td>March 10, 2019</td> <td>Completed</td> <td>50</td> <td><a routerLink="/order" class="btn btn-dark btn-small">View</a></td> </tr> <tr> <th scope="row">#3434</th> <td>February 11, 2019</td> <td>Pending</td> <td>25</td> <td><a routerLink="/order" class="btn btn-dark btn-small">View</a></td> </tr> <tr> <th scope="row">#5312</th> <td>July 11, 2019</td> <td>Processsing</td> <td>56</td> <td><a routerLink="/order" class="btn btn-dark btn-small">View</a></td> </tr> </tbody> </table> </div> </div> </div> </section>
+  </div>
+</section>
+<section class="user-dashboard page-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-7 col-sm-12 col-lg-9">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Order</th>
+              <th scope="col">Date</th>
+              <th scope="col">quantity</th>
+              <th scope="col">price</th>
+              <th scope="col">Total</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor = 'let item of orderList'>
+              <th scope="row">#{{item.id}}</th>
+              <td>{{item.updatedAt|date}} </td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.price | currency:'INR'}}</td>
+              <td>{{item.quantity!*item.price!  | currency:'INR'}}</td>
+              <td>{{item.status}}</td>
+              <td><button (click)="deleteOrderitem(item.id)" class="btn btn-dark btn-small">remove</button></td>
+            </tr>
+            <tr>
+              <td colspan="4" style="text-align:center;">total</td>
+              <td colspan="4" style="text-align:center;">{{totalPrice | currency:'INR'}}</td>
+            </tr>
+            <tr>
+              <td colspan="8" style="text-align:center;"><button  class="btn btn-dark btn-small">place order</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <app-edit-address></app-edit-address>
+</section>

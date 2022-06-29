@@ -19,7 +19,6 @@ export class ProductsingleComponent implements OnInit {
   ProductDetails: ProductModel = new ProductModel();
   DiscountDetails: DiscountModel = new DiscountModel();
   actualProductPrice: Number =0;
-  public isUserAuthenticated: boolean = false;
   submitted: boolean = false;
 
   cartForm: FormGroup = new FormGroup({
@@ -81,15 +80,10 @@ export class ProductsingleComponent implements OnInit {
     })
   }
   ngOnInit(): void {
-    this.authService.authChanged
-    .subscribe(res => {
-      this.isUserAuthenticated = res;
-    })
-
+ 
     this.route.paramMap.subscribe(params => {
       var id = Number(params.get('id'));
       this.getById(id);
-      
     });
   }
 }

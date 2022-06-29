@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CartModel } from '../shared/models/cart-model.model';
 import { ProductModel } from '../shared/models/product-model.model';
+import { ProductService } from '../shared/services/products.service';
 import { CartService } from '../shared/services/cart.service';
 @Component({
   selector: 'app-cart-card',
@@ -11,10 +12,11 @@ import { CartService } from '../shared/services/cart.service';
 })
 export class CartCardComponent implements OnInit {
   @Input() product :CartModel = new CartModel();
-  @Output() newItemEvent = new EventEmitter<CartModel>();
+  @Output() productChange = new EventEmitter<CartModel>();
+  maxQuantityLimit:Number=0;
 
   totalPrice:Number = Number(this.product.quantity) * Number(this.product.productPrice);
-  constructor(public CartService:CartService,public router:Router) { }
+  constructor(public CartService:CartService,public router:Router,public ProductService:ProductService) { }
 
   deleteCartItem(cartProductId:number){
     this.CartService.delete(cartProductId).subscribe(res=>{
@@ -23,15 +25,17 @@ export class CartCardComponent implements OnInit {
   }
 
   sendCartItemToParent(value: CartModel) {
-    this.newItemEvent.emit(value);
+    this.productChange.emit(value);
   }
-
-  onAddToOrder(product:CartModel){
-
-  }
-
+  
+ getmaxLimit(productId:number){
+  this.ProductService.getById(productId).subscribe(res=>{
+    this.maxQuantityLimit = res.quantity;
+  })
+ }
   ngOnInit(): void {
  this.product;
+ this.getmaxLimit(this.product.productId);
   }
 
 }

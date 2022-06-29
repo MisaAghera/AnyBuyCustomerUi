@@ -14,7 +14,7 @@ import { ProductsComponent } from './products/products.component';
 const routes: Routes = [
   { path:"signup", component:SignupComponent },
   { path:"login", component:LoginComponent },
-  { path:"order", component:OrdersComponent },
+  { path:"order/:id", component:OrdersComponent },
   { path:"product/:id", component:ProductsingleComponent },
   { path:"cart", component:CartComponent },
   { path:"home", component:HomeComponent },

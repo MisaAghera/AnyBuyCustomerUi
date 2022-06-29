@@ -32,10 +32,6 @@ readonly deleteUrl = GlobalConstants.apiURL+'Product/Delete/';
   getById(ProductId: number): Observable<ProductModel> {
     return this.http.get<ProductModel>(this.getByIdUrl+ProductId) 
   }
-
-  getByUserId(UserId: number): Observable<ProductModel> {
-    return this.http.get<ProductModel>(this.getByIdUrl+UserId)  
-  }
   
   delete(id:number){
     return this.http.delete(this.deleteUrl+id);
