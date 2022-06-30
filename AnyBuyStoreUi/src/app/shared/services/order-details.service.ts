@@ -10,19 +10,17 @@ import { Observable } from 'rxjs';
 export class OrderDetailsService {
   formData: OrderModel = new OrderModel();
 
-  readonly getByIdUrl = GlobalConstants.apiURL+ 'OrderDetails/GetById/';
+  readonly getByOrderIdUrl = GlobalConstants.apiURL+ 'OrderDetails/GetById/';
   readonly AddUrl = GlobalConstants.apiURL+ 'OrderDetails/Add';
   readonly updateUrl = GlobalConstants.apiURL + 'OrderDetails/Update/';
   readonly deleteUrl = GlobalConstants.apiURL+'OrderDetails/Delete/';
   readonly getAllByOrderUrl = GlobalConstants.apiURL+'OrderDetails/GetAllByOrderId?OrderId=';
+  readonly getByIdUrl = GlobalConstants.apiURL+'OrderDetails/GetByOrderDetailId/';
+ 
   constructor(private http :HttpClient) { }
 
-  // getAll() : Observable<Array<OrderModel>>{
-  //   return this.http.get<Array<OrderModel>>(this.baseURLGet)
-  // }
-  
-  getById(OrderId: number): Observable<OrderModel> {
-    return this.http.get<OrderModel>(this.getByIdUrl+OrderId) 
+  getById(Id: number): Observable<OrderDetailsModel> {
+    return this.http.get<OrderDetailsModel>(this.getByIdUrl+Id) 
   }
 
   delete(id:number){
@@ -33,11 +31,11 @@ export class OrderDetailsService {
     return this.http.put(this.updateUrl,body);
   }
 
-  add(body : InModelOrderDetails){
-    return this.http.post(this.AddUrl , body);
+  add(body : InModelOrderDetails) :Observable<number>{
+    return this.http.post<number>(this.AddUrl , body);
   }
 
-  getByOrderId(orderId: number): Observable<Array<OrderDetailsModel>> {
+  getAllByOrderId(orderId: number): Observable<Array<OrderDetailsModel>> {
     return this.http.get<Array<OrderDetailsModel>>(this.getAllByOrderUrl+orderId)  
   }
 }

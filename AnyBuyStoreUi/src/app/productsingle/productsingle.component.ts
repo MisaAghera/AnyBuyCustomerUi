@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ProductsingleComponent implements OnInit {
   ProductDetails: ProductModel = new ProductModel();
   DiscountDetails: DiscountModel = new DiscountModel();
-  actualProductPrice: Number =0;
+  actualProductPrice: number =0;
   submitted: boolean = false;
 
   cartForm: FormGroup = new FormGroup({

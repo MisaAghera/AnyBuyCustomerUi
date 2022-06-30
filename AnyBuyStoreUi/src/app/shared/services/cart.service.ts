@@ -11,7 +11,8 @@ export class CartService {
   readonly getCartUrl = GlobalConstants.apiURL+'ProductCart/GetAll?UserId=';
   readonly addCartUrl = GlobalConstants.apiURL+'ProductCart/Add';
   readonly deleteCartUrl = GlobalConstants.apiURL+'ProductCart/Delete/';
-  readonly updateCartUrl = GlobalConstants.apiURL+'ProductCart/Update/1';
+  readonly deleteCartWithUserIdUrl = GlobalConstants.apiURL+'ProductCart/DeleteFromUserId/';
+  readonly updateCartUrl = GlobalConstants.apiURL+'ProductCart/Update/';
 
   getAllByUserId(userId:number) : Observable<Array<CartModel>>{
     return this.http.get<Array<CartModel>>(this.getCartUrl+userId)
@@ -25,8 +26,12 @@ export class CartService {
     return this.http.delete(this.deleteCartUrl+id);
   }
 
+  deleteFromUserId(id:number){
+    return this.http.delete(this.deleteCartWithUserIdUrl+id);
+  }
+
   update(body :InModelCart){
-    return this.http.put(this.updateCartUrl,body);
+    return this.http.put(this.updateCartUrl+body.In.id,body);
   }
 
   constructor(private http :HttpClient) { }

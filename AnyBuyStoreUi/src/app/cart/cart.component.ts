@@ -17,6 +17,7 @@ export class CartComponent implements OnInit {
   cartProducts: CartModel[] = [];
   OrderDetailsList: OrderDetailsModel[] = [];
   orderId: number = 0;
+  addressId :number=0;
 
   constructor(public CartService: CartService,
     public OrderDetailsService: OrderDetailsService,
@@ -26,12 +27,18 @@ export class CartComponent implements OnInit {
   userId: number = Number(localStorage.getItem('userId')) ? Number(localStorage.getItem('userId')) : 0;
   cartList?: CartModel[];
 
+  async getAddressIdFromChild(addressId:number){
+     this.addressId = addressId;
+  }
+
   async createOrder() {
     var order: InOrderModel = new InOrderModel();
     order.In.userId = Number(localStorage.getItem("userId"));
+    order.In.addressId = this.addressId;
     this.OrderService.add(order).subscribe(async res => {
       this.orderId = res;
       await this.addOrderDetailsToOrder(this.orderId);
+      
       this.router.navigate(['/order/'+this.orderId]);
     });
   }
@@ -46,8 +53,31 @@ export class CartComponent implements OnInit {
     this.cartProducts.push(newItem);
   }
 
-  async onCheckout() {
-    let orderId = this.createOrder();
+  async onClickOrderPlace() {
+      let orderId = this.createOrder();
+    
+  }
+
+  async onClickDisplayAddressPanel(){
+    if(this.cartList?.length!=0){
+    document.getElementById("editAddressPanel")!.style.display = "block";
+    for (let cartItem of this.cartList!) {
+      var cartDetails: InCartModel = new InCartModel();
+      cartDetails.In.id = cartItem.id;
+      cartDetails.In.quantity = cartItem.quantity;
+      cartDetails.In.userId = Number(localStorage.getItem('userId'));
+      cartDetails.In.productId = cartItem.productId;
+      cartDetails.In.isAvailable=true;
+      this.CartService.update(cartDetails).subscribe({
+        next: (_) => {
+          console.log("updated success");
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log("error")
+        }
+      });
+    }
+  }
   }
 
   async addOrderDetailsToOrder(orderId: number) {
@@ -57,10 +87,9 @@ export class CartComponent implements OnInit {
       orderDetails.In.productId = cartItem.productId;
       orderDetails.In.status = 'preparing';
       orderDetails.In.quantity = cartItem.quantity;
-
       this.OrderDetailsService.add(orderDetails).subscribe({
-        next: (_) => {
-          console.log("added success")
+        next: (res) => {
+          console.log("added success");
         },
         error: (err: HttpErrorResponse) => {
           console.log("error")
@@ -74,10 +103,15 @@ export class CartComponent implements OnInit {
   }
 }
 
+
 class InOrderModel {
   In: OrderModel = new OrderModel();
 }
 
 class InOrderDetailsModel {
   In: OrderDetailsModel = new OrderDetailsModel();
+}
+
+class InCartModel{
+  In:CartModel = new CartModel();
 }

@@ -10,7 +10,7 @@ import { SubcategoriesComponent } from './subcategories/subcategories.component'
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
 import { EditAddressComponent } from './edit-address/edit-address.component';
 import { ProductsComponent } from './products/products.component';
-
+import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.component';
 const routes: Routes = [
   { path:"signup", component:SignupComponent },
   { path:"login", component:LoginComponent },
@@ -22,6 +22,7 @@ const routes: Routes = [
   { path:"profile-details", component:ProfileDetailsComponent },
   { path:"edit-address", component:EditAddressComponent },
   { path:"products", component:ProductsComponent },
+  {path:"orders",component:AllUserOrdersComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 

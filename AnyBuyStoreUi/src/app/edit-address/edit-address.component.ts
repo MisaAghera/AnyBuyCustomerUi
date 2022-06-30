@@ -4,16 +4,19 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ActivatedRoute, Route } from '@angular/router';
 import { AddressModel } from '../shared/models/address-model';
 import { AddressService } from '../shared/services/address.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-edit-address',
   templateUrl: './edit-address.component.html',
   styleUrls: ['./edit-address.component.css']
 })
-export class EditAddressComponent implements OnInit {
-  submitted: boolean = false;
+ export class EditAddressComponent implements OnInit {
+   submitted: boolean = false;
   addressId: number = 0;
   addressList?: AddressModel[];
+   IschangeAddress:boolean=false;
+   @Output() sendAddressIdEvent = new EventEmitter<number>();
 
   AddressForm: FormGroup = new FormGroup({
     addressId: new FormControl(''),
@@ -26,31 +29,30 @@ export class EditAddressComponent implements OnInit {
     type: new FormControl(''),
   });
   UserId: number = Number(localStorage.getItem('userId'));
-  OrderId: number = 0;
-
 
   constructor(public AddressService: AddressService,
     private formBuilder: FormBuilder,
     public route: ActivatedRoute) { }
 
-
+  sendAddressIdToParent(id:number){
+    this.sendAddressIdEvent.emit(id);
+  }
+    
   get f(): { [key: string]: AbstractControl } {
     return this.AddressForm.controls;
   }
-
 
   onReset(): void {
     this.submitted = false;
     this.AddressForm.reset();
   }
 
-
   async onSubmit(formValues: any) {
-    debugger
     this.submitted = true;
     if (this.AddressForm.invalid) {
       return;
     }
+     
     const formValue = { ...formValues };
 
     var AddressDetails: InModel = new InModel();
@@ -62,18 +64,17 @@ export class EditAddressComponent implements OnInit {
     AddressDetails.In.zipCode = formValue.zipCode;
     AddressDetails.In.addressType = formValue.type;
 
-    this.route.paramMap.subscribe(async params => {
-      var id = Number(params.get('id'));
-      AddressDetails.In.orderId = id;
-    });
-
-    AddressDetails.In.userId = Number(localStorage.getItem("userId"));
-    if (this.addressId == 0 || this.addressId == null) {
+     AddressDetails.In.userId = Number(localStorage.getItem("userId"));
+    if(this.IschangeAddress==false && this.addressId==0){
       await this.AddressService.add(AddressDetails).subscribe({
-        next: (_) => {
+        next:res => {
           document.getElementById("success-alert")!.style.display = "block";
           document.getElementById("danger-alert")!.style.display = "none";
           document.getElementById("success-alert")!.innerHTML = "added successfully";
+          document.getElementById('submitAddress')!.innerHTML = 'change address';
+          this.IschangeAddress = true;
+          this.addressId = res;
+          this.sendAddressIdToParent(res);
         },
         error: (err: HttpErrorResponse) => {
           document.getElementById("danger-alert")!.style.display = "block";
@@ -81,13 +82,18 @@ export class EditAddressComponent implements OnInit {
         }
       })
     }
+
     else {
       AddressDetails.In.id = Number(this.addressId);
       await this.AddressService.update(AddressDetails).subscribe({
-        next: (_) => {
+        next:res=> {
           document.getElementById("success-alert")!.style.display = "block";
           document.getElementById("danger-alert")!.style.display = "none";
           document.getElementById("success-alert")!.innerHTML = "updated successfully";
+          document.getElementById("submitAddress")!.innerHTML = "change Address";
+          this.IschangeAddress = true;
+          this.addressId = res;
+          this.sendAddressIdToParent(res);
         },
         error: (err: HttpErrorResponse) => {
           document.getElementById("danger-alert")!.style.display = "block";
@@ -97,20 +103,17 @@ export class EditAddressComponent implements OnInit {
     }
   }
 
-
   async setValuesInForm(res: any) {
-    debugger
     this.AddressForm.controls["addressId"].setValue(res.id);
-    this.AddressForm.controls["house"].setValue(res.productSubcategoryId);
-    this.AddressForm.controls["street"].setValue(res.discountId);
-    this.AddressForm.controls["city"].setValue(res.name);
-    this.AddressForm.controls["state"].setValue(res.description);
-    this.AddressForm.controls["country"].setValue(res.price);
-    this.AddressForm.controls["zipCode"].setValue(res.brand);
-    this.AddressForm.controls["addressType"].setValue(res.brand);
+    this.AddressForm.controls["house"].setValue(res.house);
+    this.AddressForm.controls["street"].setValue(res.street);
+    this.AddressForm.controls["city"].setValue(res.city);
+    this.AddressForm.controls["state"].setValue(res.state);
+    this.AddressForm.controls["country"].setValue(res.country);
+    this.AddressForm.controls["zipCode"].setValue(res.zipCode);
+    this.AddressForm.controls["type"].setValue(res.addressType);
     this.addressId = res.id;
   }
-
 
   async initialValues(addressId: number) {
     await this.AddressService.getById(addressId).subscribe(
@@ -120,24 +123,21 @@ export class EditAddressComponent implements OnInit {
     )
   }
 
-
   async addressesOfUser(userId: number) {
     this.AddressService.getAllByUserId(userId).subscribe(res => {
       this.addressList = res;
     });
   }
 
-
   async onClickShowAddress(addressId: number) {
-    debugger
     await this.AddressService.getById(addressId).subscribe(async res => {
       await this.setValuesInForm(res);
     })
   }
 
-
   ngOnInit(): void {
     this.AddressForm = this.formBuilder.group({
+      addressId:[''],
       house: ['', [Validators.required]],
       city: ['', [Validators.required]],
       street: ['', [Validators.required]],
@@ -146,11 +146,11 @@ export class EditAddressComponent implements OnInit {
       zipCode: ['', [Validators.required]],
       type: ['', [Validators.required]],
     });
-    this.addressesOfUser(this.UserId);
+    this.addressesOfUser(this.UserId);    
   }
-}
+ }
 
 
 class InModel {
   In: AddressModel = new AddressModel();
-}
+ }

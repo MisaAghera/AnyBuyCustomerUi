@@ -1,4 +1,6 @@
-<section class="user-dashboard page-wrapper">
+<section class="user-dashboard page-wrapper" >
+  <h3>Address</h3>
+  <br>
   <div *ngFor= "let addressType of  addressList">
     <button class="btn btn-dark" (click)="onClickShowAddress(addressType.id)">{{addressType.addressType}}</button>
   </div>
@@ -10,7 +12,6 @@
       <div class="row">
         <div class="col-12 col-md-7 col-sm-12 col-lg-9">
           <div class="acccount-settings">
-            <h4 class="mb-4">Edit Address</h4>
             <form [formGroup]="AddressForm" autocomplete="off" novalidate (ngSubmit)="onSubmit(AddressForm.value) ">
     <input type="hidden" formControlName="addressId" value="0">
               <div class="form-row">
@@ -79,11 +80,11 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-dark" type="submit">Save Changes</button>
+              <button class="btn btn-dark" id = "submitAddress" type="submit">Save Address</button>
               &nbsp;
               &nbsp;
               &nbsp;
-              <button class="btn btn-dark">Add New</button>
+              <button class="btn btn-dark" (click)="onReset()">clear</button>
             </form>
           </div>
         </div>

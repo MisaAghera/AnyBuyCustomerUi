@@ -46,14 +46,11 @@
               <td colspan="4" style="text-align:center;">{{totalPrice | currency:'INR'}}</td>
             </tr>
             <tr>
-              <td colspan="8" style="text-align:center;"><button  class="btn btn-dark btn-small">place order</button></td>
+              <td colspan="8" style="text-align:center;"><button  class="btn btn-dark btn-small" (click)="onClickConfirm()">confirm</button></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-</section>
-<section>
-  <app-edit-address></app-edit-address>
 </section>

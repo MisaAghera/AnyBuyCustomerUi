@@ -1,6 +1,5 @@
 export class ProductModel {
     id: number = 0;
-
     discountId?: number;
 
     productSubcategoryId: number = 0;

@@ -24,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpInterceptor } from '@angular/common/http';
 import { ErrorCatchingInterceptor } from './shared/interceptors/error-catching.interceptor';
 import { CartCardComponent } from './cart-card/cart-card.component';
+import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CartCardComponent } from './cart-card/cart-card.component';
     ProfileDetailsComponent,
     EditAddressComponent,
     CartCardComponent,
+    AllUserOrdersComponent,
   ],
   imports: [
     BrowserModule,

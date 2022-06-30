@@ -14,26 +14,32 @@ export class AddressService {
     readonly updateUrl = GlobalConstants.apiURL + 'Address/Update/';
     readonly deleteUrl = GlobalConstants.apiURL+'Address/Delete/';
     readonly getAllByUserUrl = GlobalConstants.apiURL+'Address/GetAddressByUserId/';
+    readonly getByOrderUrl = GlobalConstants.apiURL+'Address/GetByOrderId/';
+
     constructor(private http :HttpClient) { }
   
     // getAll() : Observable<Array<OrderModel>>{
     //   return this.http.get<Array<OrderModel>>(this.baseURLGet)
     // }
   
-    getById(OrderId: number): Observable<AddressModel> {
-      return this.http.get<AddressModel>(this.getByIdUrl+OrderId) 
+    getByOrderId(OrderId: number): Observable<AddressModel> {
+      return this.http.get<AddressModel>(this.getByOrderUrl+OrderId) 
+    }
+
+    getById(Id: number): Observable<AddressModel> {
+      return this.http.get<AddressModel>(this.getByIdUrl+Id) 
     }
   
     delete(id:number){
       return this.http.delete(this.deleteUrl+id);
     }
     
-    update(body :InModel){
-      return this.http.put(this.updateUrl,body);
+    update(body :InModel): Observable<number> {
+      return this.http.put<number>(this.updateUrl+body.In.id,body);
     }
   
     add(body : InModel): Observable<number>{
-      return this.http.post<number>(this.AddUrl , body);
+      return this.http.post<number>(this.AddUrl ,body);
     }
   
     getAllByUserId(UserId: number): Observable<Array<AddressModel>> {

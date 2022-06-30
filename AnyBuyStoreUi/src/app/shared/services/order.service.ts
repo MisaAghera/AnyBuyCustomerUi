@@ -29,15 +29,15 @@ export class OrderService {
   }
   
   update(body :InModelOrder){
-    return this.http.put(this.updateUrl,body);
+    return this.http.put(this.updateUrl+body.In.id,body);
   }
 
   add(body : InModelOrder): Observable<number>{
     return this.http.post<number>(this.AddUrl , body);
   }
 
-  getByUserId(UserId: number): Observable<OrderModel> {
-    return this.http.get<OrderModel>(this.getAllByUserUrl+UserId)  
+  getByUserId(UserId: number): Observable<Array<OrderModel>> {
+    return this.http.get<Array<OrderModel>>(this.getAllByUserUrl+UserId)  
   }
 }
 class InModelOrder{
