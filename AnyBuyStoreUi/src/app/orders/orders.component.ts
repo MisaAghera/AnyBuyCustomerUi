@@ -64,7 +64,6 @@ export class OrdersComponent implements OnInit {
     })
   }
 
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(async params => {
       var id = Number(params.get('id'));

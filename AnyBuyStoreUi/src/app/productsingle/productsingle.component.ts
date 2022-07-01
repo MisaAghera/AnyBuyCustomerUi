@@ -20,7 +20,6 @@ export class ProductsingleComponent implements OnInit {
   DiscountDetails: DiscountModel = new DiscountModel();
   actualProductPrice: number =0;
   submitted: boolean = false;
-
   cartForm: FormGroup = new FormGroup({
       quantity: new FormControl(''),
   });
@@ -46,6 +45,7 @@ export class ProductsingleComponent implements OnInit {
      await this.DiscountsService.GetById(result.discountId!).subscribe(
       res => {
         this.DiscountDetails = res;
+
       }
     );
   }

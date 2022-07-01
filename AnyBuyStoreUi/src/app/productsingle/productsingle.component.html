@@ -50,7 +50,7 @@
         <div class="single-product-details mt-5 mt-lg-0">
           <h2>{{ProductDetails.name}}</h2>
           <hr>
-          <h6 class="product-price"><del>{{actualProductPrice | currency: 'INR'}}</del></h6>
+          <h6 class="product-price"><del>{{(DiscountDetails.value+ProductDetails.price)| currency: 'INR'}}</del></h6>
           <h3 class="product-price">{{ProductDetails.price | currency: 'INR' }} </h3>
           <h5>{{DiscountDetails.value| currency: 'INR'}} OFF</h5>
           <p class="product-description my-4 ">
