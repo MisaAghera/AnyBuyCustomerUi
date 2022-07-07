@@ -23,6 +23,7 @@
           <thead>
             <tr>
               <th scope="col">Order</th>
+              <th scope="col">product</th>
               <th scope="col">Date</th>
               <th scope="col">quantity</th>
               <th scope="col">price</th>
@@ -34,19 +35,23 @@
           <tbody>
             <tr *ngFor = 'let item of orderList'>
               <th scope="row">#{{item.id}}</th>
+              <td>{{item.productName}} </td>
               <td>{{item.updatedAt|date}} </td>
               <td>{{item.quantity}}</td>
               <td>{{item.price | currency:'INR'}}</td>
               <td>{{item.quantity!*item.price!  | currency:'INR'}}</td>
               <td>{{item.status}}</td>
-              <td><button (click)="deleteOrderitem(item.id)" class="btn btn-dark btn-small">remove</button></td>
+              <div *ngIf="item.status =='delivered' ">
+                <td class="btn btn-dark btn-small">delivered</td>
+              </div>
+              <td><button (click)="deleteOrderitem(item.id)" class="btn btn-dark btn-small">cancel</button></td>
             </tr>
             <tr>
               <td colspan="4" style="text-align:center;">total</td>
               <td colspan="4" style="text-align:center;">{{totalPrice | currency:'INR'}}</td>
             </tr>
             <tr>
-              <td colspan="8" style="text-align:center;"><button  class="btn btn-dark btn-small" (click)="onClickConfirm()">confirm</button></td>
+              <td colspan="8" style="text-align:center;"><button  class="btn btn-dark btn-small" (click)="onClickNavigate()">shop more</button></td>
             </tr>
           </tbody>
         </table>

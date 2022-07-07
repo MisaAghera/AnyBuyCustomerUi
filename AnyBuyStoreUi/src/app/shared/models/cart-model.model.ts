@@ -6,4 +6,6 @@ export class CartModel {
     isAvailable:boolean =false;
     productPrice?:number
     productName?:string
+    productImgUrl?:string
+    actualProductQuantity?:number
 }

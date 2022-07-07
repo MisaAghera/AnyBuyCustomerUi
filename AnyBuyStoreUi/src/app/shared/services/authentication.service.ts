@@ -13,7 +13,7 @@ import { UserForRegistrationModel } from '../models/user-for-registration-model.
 export class AuthenticationService {
 
   formDataLogin: UserForAuthenticationModel = new UserForAuthenticationModel();
-  readonly LoginUrl = GlobalConstants.apiURL + 'Authenticate/Login';
+  readonly LoginUrl = GlobalConstants.apiURL + 'Authenticate/LoginUser';
   readonly RegisterUrl = GlobalConstants.apiURL + 'Authenticate/RegisterCustomer';
   private authChangeSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authChanged: Observable<boolean> = this.authChangeSub.asObservable();

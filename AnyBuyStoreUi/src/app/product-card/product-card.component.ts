@@ -3,6 +3,7 @@ import { ProductService } from '../shared/services/products.service';
 import { ProductModel } from '../shared/models/product-model.model'; 
 import { DiscountsService } from '../shared/services/discounts.service';
 import { DiscountModel } from '../shared/models/discount-model.model';
+import {GlobalConstants} from '../shared/global-constants.model';
 
 @Component({
   selector: 'app-product-card',
@@ -22,6 +23,9 @@ export class ProductCardComponent implements OnInit {
     );
   }
 
+  createImgPath(serverpath: string) {
+    return GlobalConstants.apiURL + serverpath;
+  }
   constructor(public service:ProductService, public DiscountsService:DiscountsService) { }
   
   ngOnInit(): void {

@@ -9,6 +9,7 @@ import { DiscountModel } from '../shared/models/discount-model.model';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { GlobalConstants } from '../shared/global-constants.model';
  
 @Component({
   selector: 'app-productsingle',
@@ -40,7 +41,9 @@ export class ProductsingleComponent implements OnInit {
       
     });
   }
-
+  createImgPath(serverpath: string) {
+    return GlobalConstants.apiURL + serverpath;
+  }
  async getDiscountFunction(result: ProductModel) {
      await this.DiscountsService.GetById(result.discountId!).subscribe(
       res => {

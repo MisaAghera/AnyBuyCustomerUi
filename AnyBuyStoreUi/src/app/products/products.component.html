@@ -7,10 +7,11 @@
 
 <div class="container" >
   <div class="row" >
+    <div class="col-sm-1">
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+      <button class="button-style dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        Sort by
+        <i class="fa fa-sort icon-style"></i>
       </button>
       <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
         <li class="dropdown-submenu">
@@ -29,13 +30,14 @@
         </li>
       </ul>
     </div>
+    </div>
+    <div class="col-sm-1">
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+      <button class="button-style dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        filters
+        <i class="fa fa-filter icon-style"></i>
       </button>
       <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-        <li class="dropdown-divider"></li>
         <li class="dropdown-submenu">
           <a class="dropdown-item" tabindex="-1">category</a>
           <ul class="dropdown-menu">
@@ -52,11 +54,23 @@
             </div>
           </ul>
         </li>
+        <li class="dropdown-submenu">
+          <a class="dropdown-item" tabindex="-1">discount</a>
+          <ul class="dropdown-menu">
+            <div *ngFor="let discount of DiscountList">
+              <li class="dropdown-item"><a (click)="getProductsByDiscount(discount.id)">{{discount.value}}</a>
+              </li>
+            </div>
+          </ul>
+        </li>
       </ul>
     </div>
+    </div>
+    <div class="col-sm-1">
+      <button class = "button-style"(click)="getProducts()"> <i class="fa fa-times icon-style"></i></button>
+      </div>
   </div>
 </div>
-<button class="btn btn-secondary float-right" (click)="getProducts()">remove filters</button>
 <div class="container mt-5">
   <div class="form-group">
     <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="filterTerm" />

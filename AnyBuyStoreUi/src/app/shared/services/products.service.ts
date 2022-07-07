@@ -18,6 +18,7 @@ export class ProductService {
   readonly updateUrl = GlobalConstants.apiURL + 'Product/Update/put';
   readonly deleteUrl = GlobalConstants.apiURL + 'Product/Delete/';
   readonly updateQuantityUrl = GlobalConstants.apiURL + 'Product/UpdateQuantity/put?id=';
+  readonly GetAllProductByDiscountIdUrl = GlobalConstants.apiURL+'Discount/GetpProductsById/';
 
   constructor(private http: HttpClient) { }
 
@@ -35,6 +36,10 @@ export class ProductService {
   getById(ProductId: number): Observable<ProductModel> {
     return this.http.get<ProductModel>(this.getByIdUrl + ProductId)
   }
+  GetAllProductByDiscountId(discountId:number): Observable<Array<ProductModel>>{
+    return this.http.get<Array<ProductModel>>(this.GetAllProductByDiscountIdUrl+discountId);
+  }
+
 
   delete(id: number) {
     return this.http.delete(this.deleteUrl + id);

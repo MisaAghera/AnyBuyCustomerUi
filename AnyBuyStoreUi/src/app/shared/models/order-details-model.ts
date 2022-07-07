@@ -1,5 +1,6 @@
 export class OrderDetailsModel {
-    id:number=0;
+
+     id:number=0;
 
     productId:number=0;
 
@@ -14,5 +15,9 @@ export class OrderDetailsModel {
     updatedAt?:any ;
     
     price?:number;
+
+    productName?:string;
+
+    discountValue?:number;
 
 }

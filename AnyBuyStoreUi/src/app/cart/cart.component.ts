@@ -7,6 +7,9 @@ import { OrderModel } from '../shared/models/order-model';
 import { OrderService } from '../shared/services/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ProductService } from '../shared/services/products.service';
+import { ProductQuantity } from '../shared/models/product-quantity';
+import { combineLatestInit } from 'rxjs/internal/observable/combineLatest';
 
 @Component({
   selector: 'app-cart',
@@ -18,10 +21,12 @@ export class CartComponent implements OnInit {
   OrderDetailsList: OrderDetailsModel[] = [];
   orderId: number = 0;
   addressId :number=0;
+  totalPrice :number=0;
 
   constructor(public CartService: CartService,
     public OrderDetailsService: OrderDetailsService,
     public OrderService: OrderService,
+    public ProductService:ProductService,
     public router:Router) { }
 
   userId: number = Number(localStorage.getItem('userId')) ? Number(localStorage.getItem('userId')) : 0;
@@ -38,8 +43,7 @@ export class CartComponent implements OnInit {
     this.OrderService.add(order).subscribe(async res => {
       this.orderId = res;
       await this.addOrderDetailsToOrder(this.orderId);
-      
-      this.router.navigate(['/order/'+this.orderId]);
+      await this.updateTotalPriceAndDeleteFromCart();
     });
   }
 
@@ -54,17 +58,23 @@ export class CartComponent implements OnInit {
   }
 
   async onClickOrderPlace() {
+    if(this.addressId==0){
+      alert("please add address before placing the order");
+    }
+    else{
       let orderId = this.createOrder();
-    
+    document.getElementById("checkout")!.style.display = "block";
+    }    
   }
 
   async onClickDisplayAddressPanel(){
     if(this.cartList?.length!=0){
     document.getElementById("editAddressPanel")!.style.display = "block";
+    document.getElementById("checkout")!.style.display = "none";
     for (let cartItem of this.cartList!) {
       var cartDetails: InCartModel = new InCartModel();
       cartDetails.In.id = cartItem.id;
-      cartDetails.In.quantity = cartItem.quantity;
+      cartDetails.In.quantity = Math.min(cartItem.quantity,cartItem.actualProductQuantity!);
       cartDetails.In.userId = Number(localStorage.getItem('userId'));
       cartDetails.In.productId = cartItem.productId;
       cartDetails.In.isAvailable=true;
@@ -79,23 +89,63 @@ export class CartComponent implements OnInit {
     }
   }
   }
+  
+  updateTotalPriceAndDeleteFromCart() {
+    this.router.navigate(['/thankyou']);
+    this.OrderService.getById(this.orderId).subscribe(res => {
+      let order = new InOrderModel();
+      order.In.addressId = res.addressId;
+      order.In.id = res.id;
+      order.In.totalAmount = this.totalPrice;
+      order.In.userId = res.userId;
+      this.OrderService.update(order).subscribe(async res => {
+      });
+      var userId = Number(localStorage.getItem('userId'));
+      this.CartService.deleteFromUserId(userId).subscribe();
+      this.OrderDetailsService.getAllByOrderId(this.orderId).subscribe(res=>{
+        for(let orderDetail of res){
+          let orederQuantity = orderDetail.quantity;
+          this.ProductService.getById(orderDetail.productId).subscribe(res=>{
+            var updateModel:InUpdateProductmodel= new InUpdateProductmodel();
+             updateModel.In.id = res.id;
+             updateModel.In.quantity = res.quantity-orederQuantity;
+             this.ProductService.updateQuantity(updateModel).subscribe();
+          })
+        }
+      })
+    })
+  }
 
   async addOrderDetailsToOrder(orderId: number) {
+    debugger
+    console.log (this.cartList);
     for (let cartItem of this.cartList!) {
-      var orderDetails: InOrderDetailsModel = new InOrderDetailsModel();
+      this.totalPrice += cartItem.productPrice!*cartItem.quantity;
+      let orderDetails = await this.createOrderDetailsModel(cartItem,orderId);
+      await this.ProductService.getById(cartItem.productId).subscribe(async res=>{
+        if(res.discountId){
+          orderDetails.In.discountId = res.discountId;
+        }
+        await this.OrderDetailsService.add(orderDetails).subscribe({
+          next: (res) => {
+            console.log("added success");
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log("error")
+          }
+        });
+      })
+    }
+  }
+
+  async createOrderDetailsModel(cartItem:any,orderId:number){
+    debugger
+    var orderDetails: InOrderDetailsModel = new InOrderDetailsModel();
       orderDetails.In.orderId = orderId;
       orderDetails.In.productId = cartItem.productId;
       orderDetails.In.status = 'preparing';
       orderDetails.In.quantity = cartItem.quantity;
-      this.OrderDetailsService.add(orderDetails).subscribe({
-        next: (res) => {
-          console.log("added success");
-        },
-        error: (err: HttpErrorResponse) => {
-          console.log("error")
-        }
-      });
-    }
+    return orderDetails;
   }
 
   async ngOnInit(): Promise<void> {
@@ -114,4 +164,7 @@ class InOrderDetailsModel {
 
 class InCartModel{
   In:CartModel = new CartModel();
+}
+class InUpdateProductmodel{
+  In:ProductQuantity=new ProductQuantity();
 }

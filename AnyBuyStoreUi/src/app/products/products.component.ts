@@ -5,6 +5,8 @@ import { CategoriesService } from '../shared/services/categories.service';
 import { SubcategoriesService } from '../shared/services/subcategories.service';
 import { CategoryModel } from '../shared/models/category-model.model';
 import { SubcategoryModel } from '../shared/models/subcategory-model.model';
+import { DiscountModel } from '../shared/models/discount-model.model';
+import { DiscountsService } from '../shared/services/discounts.service';
 
 @Component({
   selector: 'app-products',
@@ -21,14 +23,17 @@ export class ProductsComponent implements OnInit {
   count: number = 0;
   tableSize: number = 8;
   tableSizes: any = [3, 6, 9, 12];
+  DiscountDetails: DiscountModel = new DiscountModel();
+  DiscountList?:DiscountModel[];
  
-  constructor(public service: ProductService, public CategoriesService: CategoriesService, public SubcategoriesService: SubcategoriesService) { }
+  constructor(public DiscountsService: DiscountsService,public service: ProductService, public CategoriesService: CategoriesService, public SubcategoriesService: SubcategoriesService) { }
 
   getProducts(): void {
     this.service.getAll().subscribe(result => {
       this.ProductList = result;
     });
   }
+  
 
   getProductsBysubcategory(subcategoryId: number): void {
     this.service.getAllBySubcategoryId(subcategoryId).subscribe(result => {
@@ -36,6 +41,18 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  getProductsByDiscount(discountId: number){
+    this.service.GetAllProductByDiscountId(discountId).subscribe(result => {
+      this.ProductList = result;
+    });
+}
+async getDiscountFunction() {
+  await this.DiscountsService.getAll().subscribe(
+    res => {
+      this.DiscountList = res;
+    }
+  );
+}
   OnClickPriceHighToLow(): void {
     this.ProductList = this.ProductList?.sort((a, b) => b.price - a.price);
   }
@@ -81,6 +98,8 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
     this.getProducts();
+    this.getDiscountFunction();
+
   }
 
 }

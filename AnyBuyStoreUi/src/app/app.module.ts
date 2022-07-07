@@ -25,6 +25,9 @@ import { HttpInterceptor } from '@angular/common/http';
 import { ErrorCatchingInterceptor } from './shared/interceptors/error-catching.interceptor';
 import { CartCardComponent } from './cart-card/cart-card.component';
 import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.component';
+import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
+import { AuthGuard } from './shared/services/auth-guard.guard';
+import { AuthInterceptorInterceptor } from './shared/interceptors/auth-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,6 +48,7 @@ import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.compon
     EditAddressComponent,
     CartCardComponent,
     AllUserOrdersComponent,
+    ThankYouPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,11 +62,17 @@ import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.compon
   ],
   
   providers: [
-    {
+    AuthGuard,
+    { 
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorCatchingInterceptor,
       multi: true
-  }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

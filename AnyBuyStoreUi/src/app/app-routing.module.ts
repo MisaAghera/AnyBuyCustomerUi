@@ -11,18 +11,23 @@ import { ProfileDetailsComponent } from './profile-details/profile-details.compo
 import { EditAddressComponent } from './edit-address/edit-address.component';
 import { ProductsComponent } from './products/products.component';
 import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.component';
+import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
+import { AuthGuard } from './shared/services/auth-guard.guard';
+
 const routes: Routes = [
   { path:"signup", component:SignupComponent },
   { path:"login", component:LoginComponent },
-  { path:"order/:id", component:OrdersComponent },
+  { path:"order/:id", component:OrdersComponent, canActivate: [AuthGuard] },
   { path:"product/:id", component:ProductsingleComponent },
-  { path:"cart", component:CartComponent },
+  { path:"cart", component:CartComponent , canActivate: [AuthGuard]},
   { path:"home", component:HomeComponent },
   { path: 'subcategory/:id', component: SubcategoriesComponent },
-  { path:"profile-details", component:ProfileDetailsComponent },
-  { path:"edit-address", component:EditAddressComponent },
+  { path:"profile-details", component:ProfileDetailsComponent, canActivate: [AuthGuard] },
+  { path:"edit-address", component:EditAddressComponent , canActivate: [AuthGuard]},
   { path:"products", component:ProductsComponent },
-  {path:"orders",component:AllUserOrdersComponent},
+  {path:"orders",component:AllUserOrdersComponent, canActivate: [AuthGuard]},
+  {path:"thankyou",component:ThankYouPageComponent, canActivate: [AuthGuard]},
+
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
