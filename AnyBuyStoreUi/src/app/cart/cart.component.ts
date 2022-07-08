@@ -117,7 +117,6 @@ export class CartComponent implements OnInit {
   }
 
   async addOrderDetailsToOrder(orderId: number) {
-    debugger
     console.log (this.cartList);
     for (let cartItem of this.cartList!) {
       this.totalPrice += cartItem.productPrice!*cartItem.quantity;
@@ -139,7 +138,6 @@ export class CartComponent implements OnInit {
   }
 
   async createOrderDetailsModel(cartItem:any,orderId:number){
-    debugger
     var orderDetails: InOrderDetailsModel = new InOrderDetailsModel();
       orderDetails.In.orderId = orderId;
       orderDetails.In.productId = cartItem.productId;

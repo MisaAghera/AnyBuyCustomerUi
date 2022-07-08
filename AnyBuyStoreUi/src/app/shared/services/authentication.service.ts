@@ -17,6 +17,7 @@ export class AuthenticationService {
   readonly RegisterUrl = GlobalConstants.apiURL + 'Authenticate/RegisterCustomer';
   private authChangeSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authChanged: Observable<boolean> = this.authChangeSub.asObservable();
+  readonly LoginRefreshUrl = GlobalConstants.apiURL + 'Authenticate/Refresh';
 
   constructor(private http: HttpClient, private fb: FormBuilder) { }
 
@@ -26,22 +27,63 @@ export class AuthenticationService {
 
   registerUser(body: InModelRegister) {
     return this.http.post(this.RegisterUrl, body);
-  } 
+  }
 
-  checkIfAuthenticated(){
+  checkIfAuthenticated() {
     let token = localStorage.getItem('token')?.toString();
-    if(token ==''|| token==null){
+    if (token == '' || token == null) {
       this.sendAuthStateChangeNotification(false);
     }
-    else{
+    else {
       this.sendAuthStateChangeNotification(true);
     }
+  }
+  generateRefreshToken() {
+    let input = {
+      "in": {
+        "token": this.GetToken(),
+        "refreshtoken": this.GetRefreshToken(),
+        "userId": this.GetUserId()
+      }
+    }
+    return this.http.post(this.LoginRefreshUrl, input)
+
+  }
+
+  saveTokens(tokendate: any) {
+    localStorage.setItem("token", tokendate.token);
+    localStorage.setItem("refreshtoken", tokendate.refreshtoken);
+
+
+  }
+
+  checkIfAuthenticatedForService() {
+    // let currentTime = new Date();
+    // let Time = new Date(this.expiration!);
+    let token = localStorage.getItem('token')?.toString();
+    if (token == '' || token == null) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+  GetUserId() {
+    return localStorage.getItem('userId') || '';
+  }
+  GetToken() {
+    return localStorage.getItem('token') || '';
+  }
+
+  GetRefreshToken() {
+    return localStorage.getItem('refreshtoken') || '';
   }
 
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
+    localStorage.removeItem("refreshtoken");
     this.sendAuthStateChangeNotification(false);
   }
 

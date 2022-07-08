@@ -39,7 +39,6 @@ export class OrdersComponent implements OnInit {
 
    async changeOrderTotalPrice() {
      await this.OrderService.getById(this.OrderId).subscribe( res => {
-      debugger
       let order = new InOrderModel();
       order.In.addressId = res.addressId;
       order.In.id = res.id;
