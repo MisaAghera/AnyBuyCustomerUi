@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { GlobalConstants } from '../global-constants.model';
 import { UserForAuthenticationModel } from '../models/user-for-authentication-model.model';
 import { UserForRegistrationModel } from '../models/user-for-registration-model.model';
+import { PasswordChangeModel } from '../models/password-change-model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthenticationService {
   private authChangeSub: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public authChanged: Observable<boolean> = this.authChangeSub.asObservable();
   readonly LoginRefreshUrl = GlobalConstants.apiURL + 'Authenticate/Refresh';
+  readonly PasswordChangeUrl = GlobalConstants.apiURL+ 'Authenticate/ChangePassword';
 
   constructor(private http: HttpClient, private fb: FormBuilder) { }
 
@@ -28,6 +30,9 @@ export class AuthenticationService {
   registerUser(body: InModelRegister) {
     return this.http.post(this.RegisterUrl, body);
   }
+  changePassword(body:InModelPasswordChange){
+    return this.http.post(this.PasswordChangeUrl,body);
+}
 
   checkIfAuthenticated() {
     let token = localStorage.getItem('token')?.toString();
@@ -99,4 +104,7 @@ class InModelAuth {
 }
 class InModelRegister {
   In: UserForRegistrationModel = new UserForRegistrationModel();
+}
+class InModelPasswordChange{
+  In:PasswordChangeModel = new PasswordChangeModel();
 }

@@ -28,6 +28,7 @@ import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.compon
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 import { AuthGuard } from './shared/services/auth-guard.guard';
 import { AuthInterceptorInterceptor } from './shared/interceptors/auth-interceptor.interceptor';
+import { PasswordChangeComponent } from './password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { AuthInterceptorInterceptor } from './shared/interceptors/auth-intercept
     CartCardComponent,
     AllUserOrdersComponent,
     ThankYouPageComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,

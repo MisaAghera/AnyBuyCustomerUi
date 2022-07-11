@@ -13,6 +13,8 @@ import { ProductsComponent } from './products/products.component';
 import { AllUserOrdersComponent } from './all-user-orders/all-user-orders.component';
 import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component';
 import { AuthGuard } from './shared/services/auth-guard.guard';
+import { PasswordChangeModel } from './shared/models/password-change-model';
+import { PasswordChangeComponent } from './password-change/password-change.component';
 
 const routes: Routes = [
   { path:"signup", component:SignupComponent },
@@ -27,6 +29,7 @@ const routes: Routes = [
   { path:"products", component:ProductsComponent },
   {path:"orders",component:AllUserOrdersComponent, canActivate: [AuthGuard]},
   {path:"thankyou",component:ThankYouPageComponent, canActivate: [AuthGuard]},
+  {path:"passwordChange",component:PasswordChangeComponent, canActivate: [AuthGuard]},
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
