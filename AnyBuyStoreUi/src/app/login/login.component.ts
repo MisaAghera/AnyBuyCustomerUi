@@ -3,8 +3,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthResponseModel } from '../shared/models/auth-response-model.model';
 import { UserForAuthenticationModel } from '../shared/models/user-for-authentication-model.model';
 import { AuthenticationService } from '../shared/services/authentication.service';
-import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
+import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
+import { ExternalAuthModel } from '../shared/models/external-auth-model';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,9 +18,9 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string | undefined;
 
-  loginForm: FormGroup = new FormGroup({
-    username: new FormControl(""),
-    password: new FormControl("")
+  loginForm: UntypedFormGroup = new UntypedFormGroup({
+    username: new UntypedFormControl(""),
+    password: new UntypedFormControl("")
   });
   
   errorMessage: string = '';
@@ -24,8 +28,9 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthenticationService,
     private router: Router,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,) { }
+    private formBuilder: UntypedFormBuilder,
+    private route: ActivatedRoute,
+    private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group(
@@ -78,78 +83,40 @@ export class LoginComponent implements OnInit {
         }
       })
   }
-}
 
+  // externalLogin(){
+  //   debugger
+  //   this.showError = false;
+  //   this.authService.signInWithGoogle();
+  //   this.authService.extAuthChanged.subscribe( user => {
+  //     debugger
+  //     const externalAuth: ExternalAuthModel = {
+  //       provider: user.provider,
+  //       idToken: user.idToken
+  //     }
+  //     debugger
+  //     this.validateExternalAuth(externalAuth);
+  //   })
+  // }
+  // private validateExternalAuth(externalAuth: ExternalAuthModel) {
+  //   debugger
+  //   this.authService.externalLoginService(externalAuth)
+  //     .subscribe({
+  //       next: (res) => {
+  //           localStorage.setItem("token", res.token);
+  //           this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
+  //           this.router.navigate([this.returnUrl]);
+  //     },
+  //       error: (err: HttpErrorResponse) => {
+  //         this.errorMessage = err.message;
+  //         this.showError = true;
+  //         this.authService.signOutExternal();
+  //       }
+  //     });
+  // }
+ 
+}
 
 class InModel {
   In: UserForAuthenticationModel = new UserForAuthenticationModel();
 }
-// import { Component, OnInit } from '@angular/core';
-// import { HttpErrorResponse } from '@angular/common/http';
-// import { AuthResponseModel } from '../shared/models/auth-response-model.model'; 
-// import { UserForAuthenticationModel } from '../shared/models/user-for-authentication-model.model'; 
-// import { Router, ActivatedRoute } from '@angular/router';
-// import { AuthenticationService } from '../shared/services/authentication.service'; 
-// import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-login',
-//   templateUrl: './login.component.html',
-//   styleUrls: ['./login.component.css']
-// })
-// export class LoginComponent implements OnInit {
-
-
-//   private returnUrl: string | undefined; 
-
-//   loginForm: FormGroup = new FormGroup({});
-//   errorMessage: string = '';
-//   showError: boolean | undefined;
-
-//   constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
-  
-//   ngOnInit(): void {
-//     this.loginForm = new FormGroup({
-//       username: new FormControl("", [Validators.required]),
-//       password: new FormControl("", [Validators.required])
-//     })
-//     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-//   }
-
-//   // validateControl = (controlName: string) => {
-//   //   return this.loginForm.get(controlName).invalid && this.loginForm.get(controlName).touched
-//   // }
-
-//   // hasError = (controlName: string, errorName: string) => {
-//   //   return this.loginForm.get(controlName).hasError(errorName)
-//   // }
-  
-//   loginUser = (loginFormValue:any) => {
-//     this.showError = false;
-//     const login = {... loginFormValue };
-  
-    
-//     var userForAuth: InModel = new InModel();
-//     userForAuth.In.username = login.username;
-//     userForAuth.In.password = login.password;
-
-
-//     this.authService.loginUser(userForAuth)
-//     .subscribe({
-//       next: (res:AuthResponseModel) => {
-//        localStorage.setItem("token", res.token);
-//        this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
-//        this.router.navigate([this.returnUrl]);
-//     },
-//     error: (err: HttpErrorResponse) => {
-//       this.errorMessage = err.message;
-//       this.showError = true;
-//     }})
-  
-//   }
-// }
-
-
-// class InModel{
-//   In: UserForAuthenticationModel = new UserForAuthenticationModel();
-// }

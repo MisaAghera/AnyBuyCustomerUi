@@ -47,32 +47,3 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     return request.clone({headers:request.headers.set('Authorization',`Bearer ${token}`)});
   }
 }
-
-// import { Injectable } from '@angular/core';
-// import {
-//   HttpRequest,
-//   HttpHandler,
-//   HttpEvent,
-//   HttpInterceptor
-// } from '@angular/common/http';
-// import { Observable } from 'rxjs';
-
-// @Injectable()
-// export class AuthInterceptorInterceptor implements HttpInterceptor {
-
-//   constructor() {}
-
-//   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
-   
-//    debugger
-//     const token = localStorage.getItem('authToken');    
-//     if (token) {    
-//       request = request.clone({    
-//         setHeaders: {    
-//           Authorization: `Bearer ${token}`,    
-//         }    
-//       });    
-//     }    
-//     return next.handle(request)    
-//   }
-// }

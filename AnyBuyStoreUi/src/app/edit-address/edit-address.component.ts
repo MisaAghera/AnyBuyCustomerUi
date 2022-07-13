@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Route } from '@angular/router';
 import { AddressModel } from '../shared/models/address-model';
 import { AddressService } from '../shared/services/address.service';
@@ -18,20 +18,20 @@ import { Output, EventEmitter } from '@angular/core';
    IschangeAddress:boolean=false;
    @Output() sendAddressIdEvent = new EventEmitter<number>();
 
-  AddressForm: FormGroup = new FormGroup({
-    addressId: new FormControl(''),
-    house: new FormControl(''),
-    street: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    country: new FormControl(''),
-    zipCode: new FormControl(''),
-    type: new FormControl(''),
+  AddressForm: UntypedFormGroup = new UntypedFormGroup({
+    addressId: new UntypedFormControl(''),
+    house: new UntypedFormControl(''),
+    street: new UntypedFormControl(''),
+    city: new UntypedFormControl(''),
+    state: new UntypedFormControl(''),
+    country: new UntypedFormControl(''),
+    zipCode: new UntypedFormControl(''),
+    type: new UntypedFormControl(''),
   });
   UserId: number = Number(localStorage.getItem('userId'));
 
   constructor(public AddressService: AddressService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public route: ActivatedRoute) { }
 
   sendAddressIdToParent(id:number){

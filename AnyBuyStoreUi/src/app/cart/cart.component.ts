@@ -117,7 +117,6 @@ export class CartComponent implements OnInit {
   }
 
   async addOrderDetailsToOrder(orderId: number) {
-    console.log (this.cartList);
     for (let cartItem of this.cartList!) {
       this.totalPrice += cartItem.productPrice!*cartItem.quantity;
       let orderDetails = await this.createOrderDetailsModel(cartItem,orderId);

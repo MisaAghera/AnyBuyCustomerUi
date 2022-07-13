@@ -3,7 +3,7 @@ import { UserModel } from '../shared/models/user-model';
 import { UserService } from '../shared/services/user.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormControl, AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CustomValidation } from "../shared/providers/custom-validators";
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -16,17 +16,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ProfileDetailsComponent implements OnInit {
   UserDetials: UserModel = new UserModel;
 
-  userForm: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    userName: new FormControl(''),
-    gender: new FormControl(''),
-    age: new FormControl(''),
-    email: new FormControl(''),
-    phoneNumber: new FormControl('')
+  userForm: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    userName: new UntypedFormControl(''),
+    gender: new UntypedFormControl(''),
+    age: new UntypedFormControl(''),
+    email: new UntypedFormControl(''),
+    phoneNumber: new UntypedFormControl('')
   });
 
   submitted = false;
-  constructor(public userService: UserService, private router: Router, private authService: AuthenticationService, private formBuilder: FormBuilder) { }
+  constructor(public userService: UserService, private router: Router, private authService: AuthenticationService, private formBuilder: UntypedFormBuilder) { }
 
   getuserDetails(id: number) {
     this.userService.getById(id).subscribe(async result => {

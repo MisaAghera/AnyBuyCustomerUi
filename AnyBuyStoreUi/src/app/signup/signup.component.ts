@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserForRegistrationModel } from '../shared/models/user-for-registration-model.model';
-import { FormControl, AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CustomValidation } from "../shared/providers/custom-validators";
 import { Router } from '@angular/router';
 @Component({
@@ -11,18 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  registerForm: FormGroup = new FormGroup({
-    username: new FormControl(''),
-    gender: new FormControl(''),
-    age: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    confirmPassword: new FormControl(''),
-    phoneNumber: new FormControl('')
+  registerForm: UntypedFormGroup = new UntypedFormGroup({
+    username: new UntypedFormControl(''),
+    gender: new UntypedFormControl(''),
+    age: new UntypedFormControl(''),
+    email: new UntypedFormControl(''),
+    password: new UntypedFormControl(''),
+    confirmPassword: new UntypedFormControl(''),
+    phoneNumber: new UntypedFormControl('')
   });
 
   submitted = false;
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder,private router:Router) { }
+  constructor(private authService: AuthenticationService, private formBuilder: UntypedFormBuilder,private router:Router) { }
 
   ngOnInit(): void {
    

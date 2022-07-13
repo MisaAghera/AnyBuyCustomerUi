@@ -7,7 +7,7 @@ import { CartService } from '../shared/services/cart.service';
 import { DiscountsService } from '../shared/services/discounts.service';
 import { DiscountModel } from '../shared/models/discount-model.model';
 import { AuthenticationService } from '../shared/services/authentication.service';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GlobalConstants } from '../shared/global-constants.model';
  
@@ -21,8 +21,8 @@ export class ProductsingleComponent implements OnInit {
   DiscountDetails: DiscountModel = new DiscountModel();
   actualProductPrice: number =0;
   submitted: boolean = false;
-  cartForm: FormGroup = new FormGroup({
-      quantity: new FormControl(''),
+  cartForm: UntypedFormGroup = new UntypedFormGroup({
+      quantity: new UntypedFormControl(''),
   });
 
   constructor(public route : ActivatedRoute,
@@ -79,7 +79,9 @@ export class ProductsingleComponent implements OnInit {
       },
       error: (err: HttpErrorResponse) =>  {
          document.getElementById("danger-alert")!.style.display = "block";
-      document.getElementById("danger-alert")!.innerHTML = "something went wrong";}
+      document.getElementById("danger-alert")!.innerHTML = "something went wrong,please try to login";
+      this.router.navigate(["/login"])}
+
     })
   }
   ngOnInit(): void {

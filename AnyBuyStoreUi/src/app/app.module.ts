@@ -29,7 +29,8 @@ import { ThankYouPageComponent } from './thank-you-page/thank-you-page.component
 import { AuthGuard } from './shared/services/auth-guard.guard';
 import { AuthInterceptorInterceptor } from './shared/interceptors/auth-interceptor.interceptor';
 import { PasswordChangeComponent } from './password-change/password-change.component';
-
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +62,7 @@ import { PasswordChangeComponent } from './password-change/password-change.compo
     ReactiveFormsModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
+    SocialLoginModule,
   ],
   
   providers: [
@@ -74,7 +76,19 @@ import { PasswordChangeComponent } from './password-change/password-change.compo
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorInterceptor,
       multi: true
-    }
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('48164513592-hiign4nv0rkmo7gupo7p60u0oiav7f76.apps.googleusercontent.com'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
   ],
   bootstrap: [AppComponent]
 })

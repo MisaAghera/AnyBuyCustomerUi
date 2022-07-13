@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PasswordChangeModel } from '../shared/models/password-change-model';
 import { CustomValidation } from '../shared/providers/custom-validators';
@@ -15,10 +15,10 @@ export class PasswordChangeComponent implements OnInit {
   submitted = false;
   returnUrl: string | undefined;
 
-  ChangePasswordForm: FormGroup = new FormGroup({
-    currentPassword: new FormControl(""),
-    newPassword: new FormControl(""),
-    confirmPassword: new FormControl('')
+  ChangePasswordForm: UntypedFormGroup = new UntypedFormGroup({
+    currentPassword: new UntypedFormControl(""),
+    newPassword: new UntypedFormControl(""),
+    confirmPassword: new UntypedFormControl('')
   });
 
   errorMessage: string = '';
@@ -26,7 +26,7 @@ export class PasswordChangeComponent implements OnInit {
 
   constructor(private authService: AuthenticationService,
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
