@@ -31,7 +31,7 @@ export class CartCardComponent implements OnInit {
   }
 
   sendCartItemToParent(value: CartModel) {
-    value.quantity = Math.min(value.quantity,this.product.actualProductQuantity!);
+    value.quantity = Math.min(value.quantity, this.product.actualProductQuantity!);
     this.productChange.emit(value);
   }
 

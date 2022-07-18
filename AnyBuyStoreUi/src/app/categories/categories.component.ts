@@ -1,7 +1,7 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CategoriesService } from '../shared/services/categories.service';
 import { CategoryModel } from '../shared/models/category-model.model';
-import {  Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-categories',
@@ -10,13 +10,13 @@ import {  Output, EventEmitter } from '@angular/core';
 })
 
 export class CategoriesComponent implements OnInit {
-  CategoryId?:number;
-  @Input() category :CategoryModel = new CategoryModel();
+  CategoryId?: number;
+  @Input() category: CategoryModel = new CategoryModel();
   @Output() IdEvent = new EventEmitter<number>();
 
-  constructor(public service:CategoriesService) { }
+  constructor(public service: CategoriesService) { }
 
-  sendSubcategoryId(CategoryId: number): void{
+  sendSubcategoryId(CategoryId: number): void {
     this.IdEvent.emit(CategoryId);
   }
 

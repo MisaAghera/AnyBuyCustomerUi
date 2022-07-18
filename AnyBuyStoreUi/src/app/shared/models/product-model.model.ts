@@ -15,5 +15,7 @@ export class ProductModel {
     imageUrl: string = '';
 
     quantity: number = 0;
+    
+    discountValue?:number;
 
 }

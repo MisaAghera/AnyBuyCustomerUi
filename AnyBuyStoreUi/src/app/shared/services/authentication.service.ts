@@ -36,9 +36,9 @@ export class AuthenticationService {
   }
 
   externalLogin(){
+    debugger
     this.signInWithGoogle();
     this.extAuthChanged.subscribe( user => {
-      debugger
       const externalAuth: ExternalAuthModel = {
         provider: user.provider,
         idToken: user.idToken
@@ -68,7 +68,6 @@ export class AuthenticationService {
   }
 
   public externalLoginService = (body: ExternalAuthModel) => {
-    debugger
     return this.http.post<AuthResponseModel>(this.ExternalLoginUrl, body);
   }
 

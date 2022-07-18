@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
   Categorylist? : CategoryModel[];
   SubcategoryList?: SubcategoryModel[];
 
-
   getCategories(): void {
     this.CategoryService.getAll().subscribe(result =>{
       this.Categorylist = result;
@@ -40,6 +39,7 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
     this.getCategories();
+
   }
 
 

@@ -74,6 +74,9 @@ import { Output, EventEmitter } from '@angular/core';
           document.getElementById('submitAddress')!.innerHTML = 'change address';
           this.IschangeAddress = true;
           this.addressId = res;
+          this.AddressService.getAllByUserId(this.UserId).subscribe(res=>{
+            this.addressList = res;
+          })
           this.sendAddressIdToParent(res);
         },
         error: (err: HttpErrorResponse) => {

@@ -84,37 +84,6 @@ export class LoginComponent implements OnInit {
       })
   }
 
-  // externalLogin(){
-  //   debugger
-  //   this.showError = false;
-  //   this.authService.signInWithGoogle();
-  //   this.authService.extAuthChanged.subscribe( user => {
-  //     debugger
-  //     const externalAuth: ExternalAuthModel = {
-  //       provider: user.provider,
-  //       idToken: user.idToken
-  //     }
-  //     debugger
-  //     this.validateExternalAuth(externalAuth);
-  //   })
-  // }
-  // private validateExternalAuth(externalAuth: ExternalAuthModel) {
-  //   debugger
-  //   this.authService.externalLoginService(externalAuth)
-  //     .subscribe({
-  //       next: (res) => {
-  //           localStorage.setItem("token", res.token);
-  //           this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
-  //           this.router.navigate([this.returnUrl]);
-  //     },
-  //       error: (err: HttpErrorResponse) => {
-  //         this.errorMessage = err.message;
-  //         this.showError = true;
-  //         this.authService.signOutExternal();
-  //       }
-  //     });
-  // }
- 
 }
 
 class InModel {

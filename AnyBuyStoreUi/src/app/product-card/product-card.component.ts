@@ -15,14 +15,6 @@ export class ProductCardComponent implements OnInit {
 
   @Input() Product? :ProductModel;
 
-  async getDiscountFunction(DiscountId:number|undefined) {
-    await this.DiscountsService.GetById(DiscountId!).subscribe(
-      res => {
-        this.DiscountDetails = res;
-      }
-    );
-  }
-
   createImgPath(serverpath: string) {
     return GlobalConstants.apiURL + serverpath;
   }
@@ -30,7 +22,6 @@ export class ProductCardComponent implements OnInit {
   
   ngOnInit(): void {
     this.Product;
-    this.getDiscountFunction(this.Product!.discountId);
   }
  
 }

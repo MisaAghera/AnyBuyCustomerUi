@@ -1,9 +1,13 @@
 <section class="user-dashboard page-wrapper" >
   <h3>Address</h3>
   <br>
-  <div *ngFor= "let addressType of  addressList">
-    <button class="btn btn-dark" (click)="onClickShowAddress(addressType.id)">{{addressType.addressType}}</button>
-  </div>
+  <div class="container">
+    <div class="row">
+      <div  class ="col-sm-2" *ngFor= "let addressType of  addressList">
+        <button  class="btn btn-dark" (click)="onClickShowAddress(addressType.id)">{{addressType.addressType}}</button>
+       </div>
+    </div>
+</div>
     <div class="container">
       <div class="alert alert-success custom-style" id="success-alert" role="alert" style="display: none;">
       </div>

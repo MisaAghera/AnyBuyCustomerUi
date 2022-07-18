@@ -83,7 +83,6 @@ export class OrdersComponent implements OnInit {
     this.router.navigate(['/products']);
   }
 
-
   ngOnInit(): void {
     this.route.paramMap.subscribe(async params => {
       var id = Number(params.get('id'));
@@ -91,9 +90,7 @@ export class OrdersComponent implements OnInit {
       await this.getProducts(id);
     });
   }
-
 }
-
 
 class InOrderModel {
   In: OrderModel = new OrderModel();
