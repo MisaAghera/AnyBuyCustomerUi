@@ -8,11 +8,11 @@ export class AddressModel {
 
     street:string='';
 
-    city:string='';
+    cityId:number=0;
 
-    state:string='';
+    stateId:number=0;
 
-    country:string='';
+    countryId:number=0;
 
     zipCode:string='';
 
