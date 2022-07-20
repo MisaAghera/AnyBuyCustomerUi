@@ -29,6 +29,7 @@ export class CartComponent implements OnInit {
   paymentHandler: any = null;
   success: boolean = false
   failure: boolean = false
+  clicked = false;
 
   constructor(public CartService: CartService,
     public OrderDetailsService: OrderDetailsService,
@@ -58,7 +59,7 @@ export class CartComponent implements OnInit {
   async getAllCartProducts() {
     await this.CartService.getAllByUserId(this.userId).subscribe(async res => {
       this.cartList = res;
-      // this.CartService.TotalCartItem =res.reduce((total, obj) => obj.quantity + total,0)
+      this.CartService.cartCount(res.reduce((accumulator, current) => accumulator + current.quantity, 0));
     })
   }
 
@@ -163,6 +164,7 @@ export class CartComponent implements OnInit {
             });
             var userId = Number(localStorage.getItem('userId'));
             this.CartService.deleteFromUserId(userId).subscribe();
+            this.CartService.cartCount(0);
             this.OrderDetailsService.getAllByOrderId(this.orderId).subscribe(res => {
               for (let orderDetail of res) {
                 let orederQuantity = orderDetail.quantity;

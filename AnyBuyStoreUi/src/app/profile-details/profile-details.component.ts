@@ -4,7 +4,6 @@ import { UserService } from '../shared/services/user.service';
 import { AuthenticationService } from '../shared/services/authentication.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntypedFormControl, AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { CustomValidation } from "../shared/providers/custom-validators";
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -15,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class ProfileDetailsComponent implements OnInit {
   UserDetials: UserModel = new UserModel;
+  hasChange: boolean = false;
 
   userForm: UntypedFormGroup = new UntypedFormGroup({
     id: new UntypedFormControl(''),
@@ -30,16 +30,27 @@ export class ProfileDetailsComponent implements OnInit {
 
   getuserDetails(id: number) {
     this.userService.getById(id).subscribe(async result => {
+     
       this.UserDetials = result;
       await this.setValuesInForm(result);
+      await this.onCreateGroupFormValueChange();
     });
   }
+
+  onCreateGroupFormValueChange(){
+    const initialValue = this.userForm.value
+    this.userForm.valueChanges.subscribe(value => {
+      this.hasChange = Object.keys(initialValue).some(key => this.userForm.value[key] != 
+                        initialValue[key])
+    });
+}
 
   get f(): { [key: string]: AbstractControl } {
     return this.userForm.controls;
   }
 
   updateUser = (updateFormValue: any) => {
+    if(this.hasChange==true){
     this.submitted = true;
     if (this.userForm.invalid) {
       return;
@@ -60,12 +71,14 @@ export class ProfileDetailsComponent implements OnInit {
       .subscribe({
         next: (_) => {
           alert("profile updated successfully");
+          this.getuserDetails(Number(localStorage.getItem('userId')));
         },
         error: (err: HttpErrorResponse) => {
           document.getElementById("danger-alert")!.style.display = "block";
           document.getElementById("danger-alert")!.innerHTML = " unsuccessfull, please check the details";
         }
       })
+    }
   }
 
   onReset(): void {

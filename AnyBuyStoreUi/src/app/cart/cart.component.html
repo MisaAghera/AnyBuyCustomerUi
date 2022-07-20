@@ -47,6 +47,6 @@
 <div id="editAddressPanel">
     <app-edit-address (sendAddressIdEvent)="getAddressIdFromChild($event)"></app-edit-address>
     <div class="text-center cart-buttons mt-3">
-        <a (click)="onClickOrderPlace()" class="btn btn-small btn-main btn-block">place order</a>
+        <button (click)="onClickOrderPlace(); clicked = true;" [disabled]="clicked" id = "orderButton"class="btn btn-small btn-main btn-block">place order</button>
     </div>
 </div>

@@ -22,12 +22,6 @@ export class HeaderComponent implements OnInit {
     this.isUserAuthenticated = res;
   }
 
-  async getCartCount(){
-     this.CartService.getAllByUserId(Number(localStorage.getItem('userId'))).subscribe(res=>{
-      this.CartCount = res.length;  
-    })
-  }
-
   logout() {
     this.authService.logout();
     this.authService.checkIfAuthenticated();
@@ -38,10 +32,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.checkIfAuthenticated();
+    this.CartService.ordersChanged.subscribe(item=>this.CartCount = item);
     this.authService.authChanged
       .subscribe(async res => {
         await this.assignAuthentication(res);
-        await this.getCartCount();
         this.userName = localStorage.getItem("userName") ? localStorage.getItem("userName")?.toString() : '';
       })
   }
