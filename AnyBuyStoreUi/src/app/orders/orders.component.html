@@ -45,7 +45,7 @@
                 <td class="text-center border-none" style="color: red;">delivered</td>
               </div>
               <div *ngIf="item.status !='delivered' ">
-                <td class="border-none"><button (click)="deleteOrderitem(item.id)" class="btn btn-dark btn-small ">cancel</button></td>
+                <td class="border-none"><button (click)="deleteItemFromOrderDetails(item.id)" class="btn btn-dark btn-small ">cancel</button></td>
               </div>
 
             </tr>

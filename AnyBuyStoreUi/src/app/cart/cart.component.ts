@@ -9,10 +9,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ProductService } from '../shared/services/products.service';
 import { ProductQuantity } from '../shared/models/product-quantity';
-import { combineLatestInit } from 'rxjs/internal/observable/combineLatest';
 import { CheckoutService } from '../shared/services/checkout.service';
 import { PaymentModel } from '../shared/models/payment-model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -72,7 +70,7 @@ export class CartComponent implements OnInit {
       alert("please add address before placing the order");
     }
     else {
-      let orderId = this.createOrder();
+      this.createOrder();
       document.getElementById("checkout")!.style.display = "block";
     }
   }
@@ -206,7 +204,6 @@ export class CartComponent implements OnInit {
           key: this.stripeAPIKey,
           locale: 'auto',
           token: function (stripeToken: any) {
-            console.log(stripeToken);
           },
         });
       };
